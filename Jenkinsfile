@@ -1,10 +1,10 @@
 pipeline {
-    agent { label 'linux' }
+    agent { label 'centos' }
     stages {
         stage ('Checkout') {
             agent { docker 'gradle:4.5-jdk8-alpine' }
             steps {
-                git 'https://github.com/effectivejenkins/jenkins_3_database_migration.git'
+                git 'https://github.com/vedhamurthy/jenkins_3_database_migration.git'
             }
         }
         stage('Build') {
@@ -25,8 +25,8 @@ pipeline {
         stage('Deploy') {
             steps {
                 unstash 'package'
-                sh 'scp build/libs/*.jar jenkins@192.168.50.6:/opt/app/jenkins_3_database_migration.jar'
-                sh "ssh jenkins@192.168.50.6 'sudo systemctl restart jenkins_3_database_migration.service'"
+                sh 'scp build/libs/*.jar user@vedlatha1113.mylabserver.com:/opt/app/jenkins_3_database_migration.jar'
+                sh "ssh user@vedlatha1113.mylabserver.com 'sudo systemctl restart jenkins_3_database_migration.service'"
             }
         }
     }
